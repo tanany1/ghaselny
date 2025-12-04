@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
-
-import 'package:ghaselny/features/auth/login/presentation/login_screen.dart';
 import 'package:ghaselny/features/auth/register/presentation/register_screen.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -27,7 +25,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xff653662),
+      backgroundColor: Color(0xFF653662),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
