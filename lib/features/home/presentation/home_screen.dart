@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ghaselny/features/home/data/subscription_card.dart';
+import 'package:ghaselny/features/home/presentation/vehicle_bottom_sheet.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -18,19 +19,22 @@ class _HomeScreenState extends State<HomeScreen> {
       'washCount': 3,
       'description': 'للي يحبون سياراتهم دايم نظيفة،\n بس ما يحتاجون غسيل كثير',
       'price': '99',
-      'imagePath': 'assets/images/pattern_light.png', // Add your specific image here
+      'imagePath': 'assets/images/pattern_light.png',
+      // Add your specific image here
     },
     {
       'title': 'متوسطة',
       'washCount': 5,
-      'description': 'أنسب باقة للي يحب يحافظ على نظافة\n سيارته طول الشهر بدون قلق',
+      'description':
+          'أنسب باقة للي يحب يحافظ على نظافة\n سيارته طول الشهر بدون قلق',
       'price': '139',
       'imagePath': 'assets/images/pattern_medium.png', // Different image
     },
     {
       'title': 'فخمة',
       'washCount': 10,
-      'description': 'للي يحب سيارته تبقى لامعة على\n طول الشهر، من غير ما يفكر مرتين',
+      'description':
+          'للي يحب سيارته تبقى لامعة على\n طول الشهر، من غير ما يفكر مرتين',
       'price': '299',
       'imagePath': 'assets/images/pattern_premium.png', // Different image
     },
@@ -46,22 +50,13 @@ class _HomeScreenState extends State<HomeScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _buildTopHeaderAndSlider(),
-            SizedBox(height: 20,),
-            Text(
-              'اختر الخدمة اللي تناسبك',
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                color: Colors.black, // Title is white in the design against purple
-              ),
-            ),
             // To handle the white section curving up, we put the rest in a container
             Container(
               decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(25),
-                    topRight: Radius.circular(25),
-                  )
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(25),
+                  topRight: Radius.circular(25),
+                ),
               ),
               padding: const EdgeInsets.all(20.0),
               child: Column(
@@ -107,32 +102,71 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 15),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 20.0,
+                vertical: 15,
+              ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   // Address Dropdown
-                  const Row(
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Icon(Icons.location_on_outlined, color: Colors.white),
-                      SizedBox(width: 8),
-                      Text(
-                        'الرياض، حي الملقا ...',
-                        style: TextStyle(color: Colors.white, fontSize: 16),
+                      Padding(
+                        padding: const EdgeInsets.only(right: 8,bottom: 4),
+                        child: Text(
+                          "العنوان",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Cairo',
+                          ),
+                        ),
                       ),
-                      Icon(Icons.keyboard_arrow_down, color: Colors.white),
+                      const Row(
+                        children: [
+                          Icon(Icons.location_on_outlined, color: Colors.white),
+                          SizedBox(width: 8),
+                          Text(
+                            'الرياض، حي الملقا ...',
+                            style: TextStyle(color: Colors.white, fontSize: 16),
+                          ),
+                          Icon(Icons.keyboard_arrow_down, color: Colors.white),
+                        ],
+                      ),
                     ],
                   ),
                   // The "7403" Tag
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                    decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.2),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: const Text(
-                      '7403, أور ...',
-                      style: TextStyle(color: Colors.white),
+                  InkWell(
+                    onTap: (){
+                      showModalBottomSheet(
+                        context: context,
+                        isScrollControlled: true, // Important for full height sheets
+                        backgroundColor: Colors.transparent, // Let the sheet handle the radius
+                        builder: (context) => const VehicleBottomSheet(),
+                      );
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 6,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Row(
+                        children: [
+                          const Text(
+                            '7403, أ و ر',
+                            style: TextStyle(color: Colors.black, fontSize: 14, fontFamily: 'Cairo'),
+                          ),
+                          SizedBox(width: 5),
+                          Icon(Icons.arrow_drop_down, color: Colors.black)
+                        ],
+                      ),
                     ),
                   ),
                 ],
@@ -159,7 +193,23 @@ class _HomeScreenState extends State<HomeScreen> {
                 },
               ),
             ),
-            const SizedBox(height: 20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Text(
+                    'اختر الخدمة اللي تناسبك',
+                    style: TextStyle(
+                      fontSize: 28,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                      fontFamily: 'Cairo',
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ],
         ),
       ),
@@ -171,18 +221,23 @@ class _HomeScreenState extends State<HomeScreen> {
     return Container(
       decoration: const BoxDecoration(
         borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(25), topRight: Radius.circular(25)),
+          topLeft: Radius.circular(25),
+          topRight: Radius.circular(25),
+        ),
         boxShadow: [
           BoxShadow(color: Colors.black12, spreadRadius: 0, blurRadius: 10),
         ],
       ),
       child: ClipRRect(
         borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(25), topRight: Radius.circular(25)),
+          topLeft: Radius.circular(25),
+          topRight: Radius.circular(25),
+        ),
         child: BottomNavigationBar(
           backgroundColor: Colors.white,
           currentIndex: _selectedIndex,
-          selectedItemColor: const Color(0xFFD7A3C6), // Pinkish selected color
+          selectedItemColor: const Color(0xFFD7A3C6),
+          // Pinkish selected color
           unselectedItemColor: Colors.grey,
           showSelectedLabels: true,
           showUnselectedLabels: false,
@@ -194,12 +249,18 @@ class _HomeScreenState extends State<HomeScreen> {
           items: [
             BottomNavigationBarItem(
               icon: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                  decoration: BoxDecoration(
-                      color: _selectedIndex == 0 ? const Color(0xFFF3DDF1) : Colors.transparent,
-                      borderRadius: BorderRadius.circular(20)
-                  ),
-                  child: const Icon(Icons.home_filled)),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 5,
+                ),
+                decoration: BoxDecoration(
+                  color: _selectedIndex == 0
+                      ? const Color(0xFFF3DDF1)
+                      : Colors.transparent,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: const Icon(Icons.home_filled),
+              ),
               label: 'الرئيسية',
             ),
             const BottomNavigationBarItem(
@@ -215,7 +276,6 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-
 
   // Reusable Widget for the bottom two service options
   Widget _buildServiceOptionCard({
@@ -256,10 +316,7 @@ class _HomeScreenState extends State<HomeScreen> {
               const SizedBox(height: 4),
               Text(
                 subtitle,
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.black,
-                ),
+                style: TextStyle(fontSize: 16, color: Colors.black),
               ),
             ],
           ),

@@ -30,7 +30,6 @@ class _SplashScreenState extends State<SplashScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // Assuming you have an app icon in assets
             Image.asset('assets/images/app_icon.png', width: 350, height: 350),
           ],
         ),
